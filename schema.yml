@@ -1,0 +1,1049 @@
+openapi: 3.0.3
+info:
+  title: Grocery_store API
+  version: 1.0.0
+  description: See more at README.md in current repository
+paths:
+  /api/auth/token/login/:
+    post:
+      operationId: api_auth_token_login_create
+      description: Use this endpoint to obtain user authentication token.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenCreate'
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenCreate'
+          description: ''
+  /api/auth/token/logout/:
+    post:
+      operationId: api_auth_token_logout_create
+      description: Use this endpoint to logout user (remove user authentication token).
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/auth/users/:
+    get:
+      operationId: api_auth_users_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: api_auth_users_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+  /api/auth/users/{id}/:
+    get:
+      operationId: api_auth_users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: api_auth_users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: api_auth_users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: api_auth_users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/auth/users/activation/:
+    post:
+      operationId: api_auth_users_activation_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Activation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Activation'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activation'
+          description: ''
+  /api/auth/users/me/:
+    get:
+      operationId: api_auth_users_me_retrieve
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: api_auth_users_me_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: api_auth_users_me_partial_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: api_auth_users_me_destroy
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/auth/users/resend_activation/:
+    post:
+      operationId: api_auth_users_resend_activation_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /api/auth/users/reset_password/:
+    post:
+      operationId: api_auth_users_reset_password_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /api/auth/users/reset_password_confirm/:
+    post:
+      operationId: api_auth_users_reset_password_confirm_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordResetConfirm'
+          description: ''
+  /api/auth/users/reset_username/:
+    post:
+      operationId: api_auth_users_reset_username_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SendEmailReset'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendEmailReset'
+          description: ''
+  /api/auth/users/reset_username_confirm/:
+    post:
+      operationId: api_auth_users_reset_username_confirm_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsernameResetConfirm'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsernameResetConfirm'
+          description: ''
+  /api/auth/users/set_password/:
+    post:
+      operationId: api_auth_users_set_password_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetPassword'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetPassword'
+          description: ''
+  /api/auth/users/set_username/:
+    post:
+      operationId: api_auth_users_set_username_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SetUsername'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetUsername'
+          description: ''
+  /api/v1/categiries/:
+    get:
+      operationId: api_v1_categiries_list
+      description: ViewSet for Category.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - categiries
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCategoryList'
+          description: ''
+  /api/v1/categiries/{id}/:
+    get:
+      operationId: api_v1_categiries_retrieve
+      description: ViewSet for Category.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Category.
+        required: true
+      tags:
+      - categiries
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+  /api/v1/products/:
+    get:
+      operationId: api_v1_products_list
+      description: ViewSet for Products.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - products
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductList'
+          description: ''
+  /api/v1/products/{slug}/:
+    get:
+      operationId: api_v1_products_retrieve
+      description: ViewSet for Products.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - products
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+  /api/v1/products/{slug}/edit_cart/:
+    post:
+      operationId: api_v1_products_edit_cart_create
+      description: |-
+        This action allows you to create,
+        uplate and remove entry in the ShoppingCart.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - shopping_cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShoppingCart'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateShoppingCart'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateShoppingCart'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateShoppingCart'
+          description: ''
+    patch:
+      operationId: api_v1_products_edit_cart_partial_update
+      description: |-
+        This action allows you to create,
+        uplate and remove entry in the ShoppingCart.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - shopping_cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateShoppingCart'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateShoppingCart'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateShoppingCart'
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateShoppingCart'
+          description: ''
+    delete:
+      operationId: api_v1_products_edit_cart_destroy
+      description: |-
+        This action allows you to create,
+        uplate and remove entry in the ShoppingCart.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - shopping_cart
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/products/shopping_cart/:
+    get:
+      operationId: api_v1_products_shopping_cart_retrieve
+      description: |-
+        This action allows you to view all entntries
+        in the ShoppingCart or clean its.
+      tags:
+      - shopping_cart
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: api_v1_products_shopping_cart_destroy
+      description: |-
+        This action allows you to view all entntries
+        in the ShoppingCart or clean its.
+      tags:
+      - shopping_cart
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/sub_categiries/:
+    get:
+      operationId: api_v1_sub_categiries_list
+      description: ViewSet for Sub-Category.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - sub_categiries
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSubCategoryList'
+          description: ''
+  /api/v1/sub_categiries/{id}/:
+    get:
+      operationId: api_v1_sub_categiries_retrieve
+      description: ViewSet for Sub-Category.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Sub-Category.
+        required: true
+      tags:
+      - sub_categiries
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+components:
+  schemas:
+    Activation:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+      required:
+      - token
+      - uid
+    Category:
+      type: object
+      description: Serializer for Gategory.
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        image:
+          type: string
+          format: uri
+        sub_categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubCategory'
+      required:
+      - image
+      - name
+      - slug
+      - sub_categories
+    CreateShoppingCart:
+      type: object
+      description: Serializer for create update and delete ShoppingCart entry.
+      properties:
+        buyer:
+          type: integer
+        product:
+          type: integer
+        amount:
+          type: integer
+          minimum: 1
+          maximum: 10000
+      required:
+      - amount
+      - buyer
+      - product
+    PaginatedCategoryList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    PaginatedProductList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    PaginatedSubCategoryList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubCategory'
+    PasswordResetConfirm:
+      type: object
+      properties:
+        uid:
+          type: string
+        token:
+          type: string
+        new_password:
+          type: string
+      required:
+      - new_password
+      - token
+      - uid
+    PatchedCreateShoppingCart:
+      type: object
+      description: Serializer for create update and delete ShoppingCart entry.
+      properties:
+        buyer:
+          type: integer
+        product:
+          type: integer
+        amount:
+          type: integer
+          minimum: 1
+          maximum: 10000
+    PatchedUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+    Product:
+      type: object
+      description: Serializer for Product.
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        category:
+          type: string
+          readOnly: true
+        sub_category:
+          type: string
+          readOnly: true
+        image:
+          type: string
+          format: uri
+        price:
+          type: number
+          format: double
+      required:
+      - category
+      - image
+      - name
+      - pk
+      - price
+      - slug
+      - sub_category
+    SendEmailReset:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    SetPassword:
+      type: object
+      properties:
+        new_password:
+          type: string
+        current_password:
+          type: string
+      required:
+      - current_password
+      - new_password
+    SetUsername:
+      type: object
+      properties:
+        current_password:
+          type: string
+        new_username:
+          type: string
+          title: Username
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - current_password
+      - new_username
+    SubCategory:
+      type: object
+      description: Serializer for Sub-Category.
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        category:
+          type: string
+          readOnly: true
+        image:
+          type: string
+          format: uri
+      required:
+      - category
+      - image
+      - name
+      - slug
+    TokenCreate:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+      required:
+      - id
+      - username
+    UserCreate:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - id
+      - password
+      - username
+    UsernameResetConfirm:
+      type: object
+      properties:
+        new_username:
+          type: string
+          title: Username
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - new_username
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

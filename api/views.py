@@ -71,7 +71,7 @@ class ProductViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
         url_path='shopping_cart',
         url_name='shopping_cart',
         permission_classes=(IsAuthenticated,),
-        serializer_class=ShoppingCartSerializer
+        serializer_class=ShoppingCartSerializer,
     )
     def shopping_cart(self, request):
         """
